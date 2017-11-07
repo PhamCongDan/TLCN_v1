@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/lntest"
+    tools:context="hcmute.it.danpham.tlcn_v1.CauHoiActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+
+        android:orientation="horizontal"
+        >
+
+        <ImageButton
+            android:id="@+id/button50_50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nammuoi"
+            android:scaleType="fitXY"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/custom_btn_nammuoi"
+            android:text="" />
+
+        <Button
+            android:id="@+id/button_hoi_khangia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/hoi_khangia"
+            android:text="" />
+
+        <ImageButton
+            android:id="@+id/button_callf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_nammuoi"
+            android:src="@drawable/ic_local_phone_black_24dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="match_parent"
+            android:paddingBottom="9px"
+            android:background="@drawable/custom_txt_cauhoi"
+            android:text="Câu số "
+
+            android:textSize="20dp"
+            android:layout_height="200dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btnA"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textAlignment="textStart"
+                    android:paddingLeft="30dp"
+                    android:background="@drawable/background_btn"
+                    android:text="A. "
+                    android:textColor="@color/colorYellow"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:textColor="#FFFFE0"
+
+                android:textSize="25px"
+                android:textStyle="bold" >
+
+                <Button
+                    android:id="@+id/btnB"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_btn"
+                    android:text="B. "
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textAlignment="textStart"
+                    android:paddingLeft="30dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorYellow"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btnC"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textAlignment="textStart"
+                    android:paddingLeft="30dp"
+                    android:background="@drawable/custom_btn"
+                    android:text="C. "
+                    android:textColor="@color/colorYellow"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btnD"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textAlignment="textStart"
+                    android:paddingLeft="30dp"
+                    android:background="@drawable/custom_btn"
+                    android:text="D. "
+                    android:textColor="@color/colorYellow"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
