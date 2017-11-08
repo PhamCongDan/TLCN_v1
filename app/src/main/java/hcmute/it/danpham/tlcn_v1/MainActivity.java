@@ -1,15 +1,24 @@
 package hcmute.it.danpham.tlcn_v1;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -24,10 +33,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnBatDau,btnA,btnB,btnC,btnD;
     TextView tvQuestion;
     int causo=1;
+
+    String DATABASE_NAME="ALTPdb.sqlite";
+    private static final String DB_PATH_SUFFIX="/databases/";
+    SQLiteDatabase database=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        saoChepCSDL();
 
         addControls();
         addEvents();
@@ -60,6 +75,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void saoChepCSDL(){
+
+        File dbFile=getDatabasePath(DATABASE_NAME);
+
+        //if(!dbFile.exists()){
+            try{
+
+                CopyDatabaseFromAsset();
+                Toast.makeText(this,"copy thành công",Toast.LENGTH_SHORT).show();
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(this,""+e.toString(),Toast.LENGTH_SHORT).show();
+            }
+       // }
+
+    }
+
+    private void CopyDatabaseFromAsset() {
+        try{
+            InputStream myInput=getAssets().open(DATABASE_NAME);
+            String outFileName=layDuongDan();
+            //kiem tra
+            File f=new File(getApplicationInfo().dataDir+DB_PATH_SUFFIX);
+            if(!f.exists()){
+                f.mkdir();
+
+            }
+
+            OutputStream myOutput=new FileOutputStream(outFileName);
+            //
+            byte[] buffer=new byte[1024];
+            int lenght;
+            while((lenght=myInput.read(buffer))>0){
+                myOutput.write(buffer,0,lenght);
+            }
+            //close stream
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+
+
+        }catch (Exception ex){
+            Log.e("",ex.toString());
+        }
+    }
+
+    private String layDuongDan(){
+        return getApplicationInfo().dataDir+DB_PATH_SUFFIX+DATABASE_NAME;
+    }
+    //
+
+    private void hienThiCauHoi(){
+        //mở csdl
+        database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+        Cursor cursor=database.rawQuery("select * from CauHoi",null);
+        if(cursor.moveToNext()){
+            tvQuestion.setText("Câu số "+causo+"\n"+cursor.getString(1));
+            btnA.setText("A. "+cursor.getString(2));
+            btnB.setText("B. "+cursor.getString(3));
+            btnC.setText("C. "+cursor.getString(4));
+            btnD.setText("D. "+cursor.getString(5));
+
+        }
+        cursor.close();
+
+
+
+    }
+
     @Override
     public void onClick(final View view) {
         switch(view.getId())
@@ -68,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBatDau:
                 //
                 if(!clickLayoutMain) {
+
+                    hienThiCauHoi();
                     clickLayoutMain=true;
                     layoutMain.startAnimation(animationSlidetoLeft);
                     layoutMain.setVisibility(View.GONE);
@@ -109,11 +196,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     //
                                     layoutCauHoi.setVisibility(View.GONE);
                                     causo++;
-                                    tvQuestion.setText("Câu số " + causo);
+
 
                                     layoutCauHoi.setVisibility(View.VISIBLE);
 
                                     layoutCauHoi.startAnimation(animationSlidefromRight);
+                                    hienThiCauHoi();
                                     btnA.setBackgroundResource(R.drawable.custom_btn);
                                 }
                             }.start();
