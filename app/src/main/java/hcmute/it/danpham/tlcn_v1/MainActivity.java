@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvQuestion;
     int causo=1;
 
+
     String DATABASE_NAME="ALTPdb.sqlite";
     private static final String DB_PATH_SUFFIX="/databases/";
     SQLiteDatabase database=null;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        saoChepCSDL();
+        //saoChepCSDL();
 
         addControls();
         addEvents();
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    //lần đầu chạy thì chạy 3 hàm này để kêt nối db
     private void saoChepCSDL(){
 
         File dbFile=getDatabasePath(DATABASE_NAME);
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hienThiCauHoi(){
         //mở csdl
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+
         Cursor cursor=database.rawQuery("select * from CauHoi",null);
         if(cursor.moveToNext()){
             tvQuestion.setText("Câu số "+causo+"\n"+cursor.getString(1));
@@ -201,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     layoutCauHoi.setVisibility(View.VISIBLE);
 
                                     layoutCauHoi.startAnimation(animationSlidefromRight);
-                                    hienThiCauHoi();
+                                    //hienThiCauHoi();
                                     btnA.setBackgroundResource(R.drawable.custom_btn);
                                 }
                             }.start();
