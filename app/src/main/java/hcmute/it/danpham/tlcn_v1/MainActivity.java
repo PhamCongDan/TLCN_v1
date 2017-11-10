@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnBatDau,btnA,btnB,btnC,btnD;
     TextView tvQuestion;
     int causo=1;
+    String dapan="";
+    String luachon="";
 
 
     String DATABASE_NAME="ALTPdb.sqlite";
@@ -52,7 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void addEvents() {
         btnBatDau.setOnClickListener(this);
         btnA.setOnClickListener(this);
-
+        btnB.setOnClickListener(this);
+        btnC.setOnClickListener(this);
+        btnD.setOnClickListener(this);
     }
 
     private void addControls() {
@@ -134,13 +138,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //mở csdl
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
 
-        Cursor cursor=database.rawQuery("select * from CauHoi",null);
+        Cursor cursor=database.rawQuery("select * from CauHoi where id="+causo,null);
         if(cursor.moveToNext()){
             tvQuestion.setText("Câu số "+causo+"\n"+cursor.getString(1));
             btnA.setText("A. "+cursor.getString(2));
             btnB.setText("B. "+cursor.getString(3));
             btnC.setText("C. "+cursor.getString(4));
             btnD.setText("D. "+cursor.getString(5));
+            dapan=cursor.getString(6);
 
         }
         cursor.close();
@@ -148,9 +153,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    private void xuLyChonDapAn(final View view){
+        if(!clickDapAn) {
+            clickDapAn=true;
+            view.setBackgroundResource(R.drawable.custom_btn_selected);
+            new CountDownTimer(4000, 4000) {
+                @Override
+                public void onTick(long l) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    new CountDownTimer(5000, 500) {
+                        boolean green=false;
+                        @Override
+
+                        public void onTick(long l) {
+                            if(luachon.equals(dapan)) {
+
+                                if (!green) {
+                                    green = true;
+                                    view.setBackgroundResource(R.drawable.custom_right_result);
+                                } else {
+                                    view.setBackgroundResource(R.drawable.custom_btn_selected);
+                                    green = false;
+                                }
+                            }
+                            else
+                            {
+
+                                if (!green) {
+                                    green = true;
+                                    switch (dapan){
+                                        case "A":
+                                            btnA.setBackgroundResource(R.drawable.custom_right_result);
+                                            break;
+                                        case "B":
+                                            btnB.setBackgroundResource(R.drawable.custom_right_result);
+                                            break;
+                                        case "C":
+                                            btnC.setBackgroundResource(R.drawable.custom_right_result);
+                                            break;
+                                        case "D":
+                                            btnD.setBackgroundResource(R.drawable.custom_right_result);
+                                            break;
+
+
+                                    }
+
+                                } else {
+
+                                    switch (dapan) {
+                                        case "A":
+                                            btnA.setBackgroundResource(R.drawable.custom_btn);
+                                            break;
+                                        case "B":
+                                            btnB.setBackgroundResource(R.drawable.custom_btn);
+                                            break;
+                                        case "C":
+                                            btnC.setBackgroundResource(R.drawable.custom_btn);
+                                            break;
+                                        case "D":
+                                            btnD.setBackgroundResource(R.drawable.custom_btn);
+                                            break;
+                                    }
+                                    green=false;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            layoutCauHoi.startAnimation(animationSlidetoLeft);
+                            //
+                            layoutCauHoi.setVisibility(View.GONE);
+                            causo++;
+
+
+                            layoutCauHoi.setVisibility(View.VISIBLE);
+                            tvQuestion.setText("Câu số "+causo);
+                            layoutCauHoi.startAnimation(animationSlidefromRight);
+                            hienThiCauHoi();
+                            btnA.setBackgroundResource(R.drawable.custom_btn);
+                            btnB.setBackgroundResource(R.drawable.custom_btn);
+                            btnC.setBackgroundResource(R.drawable.custom_btn);
+                            btnD.setBackgroundResource(R.drawable.custom_btn);
+                            clickDapAn=false;
+                        }
+                    }.start();
+                }
+            }.start();
+
+        }
+    }
 
     @Override
     public void onClick(final View view) {
+
         switch(view.getId())
         {
 
@@ -169,50 +269,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btnA:
-                if(!clickDapAn) {
-                    view.setBackgroundResource(R.drawable.custom_btn_selected);
-                    new CountDownTimer(4000, 4000) {
-                        @Override
-                        public void onTick(long l) {
+                luachon="A";
+                xuLyChonDapAn(btnA);
 
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            new CountDownTimer(5000, 500) {
-                                boolean green=false;
-                                @Override
-
-                                public void onTick(long l) {
-                                    if (!green){
-                                        green=true;
-                                        view.setBackgroundResource(R.drawable.custom_right_result);
-                                    }
-                                    else    {
-                                        view.setBackgroundResource(R.drawable.custom_btn_selected);
-                                        green=false;
-                                    }
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    layoutCauHoi.startAnimation(animationSlidetoLeft);
-                                    //
-                                    layoutCauHoi.setVisibility(View.GONE);
-                                    causo++;
-
-
-                                    layoutCauHoi.setVisibility(View.VISIBLE);
-
-                                    layoutCauHoi.startAnimation(animationSlidefromRight);
-                                    //hienThiCauHoi();
-                                    btnA.setBackgroundResource(R.drawable.custom_btn);
-                                }
-                            }.start();
-                        }
-                    }.start();
-
-                }
+                break;
+            case R.id.btnB:
+                luachon="B";
+                xuLyChonDapAn(btnB);
+                break;
+            case R.id.btnC:
+                luachon="C";
+                xuLyChonDapAn(btnC);
+                break;
+            case R.id.btnD:
+                luachon="D";
+                xuLyChonDapAn(btnD);
                 break;
         }
 
